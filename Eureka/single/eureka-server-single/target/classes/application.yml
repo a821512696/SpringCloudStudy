@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: single
+  security:
+    user:
+      name: lht
+      password: lht

@@ -1,0 +1,17 @@
+server:
+  port: 8772
+  
+  
+  
+spring:
+  application:
+    name: service-hi
+    
+
+eureka:
+  client:
+    service-url:
+    #连接设置了security  有账号密码的注册中心
+      defaultZone: http://lht:lht@discovery1:8761/eureka/,http://lht:lht@discovery2:8762/eureka/,http://lht:lht@discovery3:8763/eureka/
+  
+  
