@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: service-ribbons
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Hi
+Implementation-Vendor-Id: sch.hunnu
+Build-Jdk: 1.8.0_101
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/service-ribbons
+Created-By: Maven Integration for Eclipse
+
