@@ -1,0 +1,26 @@
+
+server:
+  port: 8779
+  
+  
+spring:
+  application:
+    name: server-zuul
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://lht:lht@localhost:8761/eureka/    
+
+#配置 映射规则 
+#当url 匹配/api-a/** 则访问服务名为 service-ribbon的服务者 
+#类似 url从 http://server-zuul:8779/api-a/hi/lht这部分变成了 http://service-ribbon:(service-ribbon的端口号)/hi/lht
+#api-b 同理
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      service-id: service-ribbon
+    api-b:
+      path: /api-b/**
+      service-id: service-feign

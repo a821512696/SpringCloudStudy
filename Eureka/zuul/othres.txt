@@ -1,0 +1,7 @@
+本应还有 
+service-server
+service-hi
+service-feign
+service-ribbons
+SpringCloudEureka
+这几个项目 详情见Ribbon+Hystrix和Feign+Hystrix
