@@ -1,0 +1,39 @@
+spring:
+  application:
+    #应用的名字自取，不过等下 client 会要根据这个值进行服务发现和调用！
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          #github仓库的地址(网址)
+          uri: https://github.com/a821512696/CloudConfig/
+          #默认的分支
+          default-label: master
+          #要访问的文件的路径
+          search-paths:
+          - config-dev.properties
+          #如果git仓库是私有仓库则需要输入验证信息
+          #username: 
+          #password: 
+          
+          
+          
+          
+server:
+  port: 8762
+#name : 123
+
+
+
+eureka:
+#配置服务器的实例主机名字
+  instance:
+    hostname: localhost
+  client:
+    service-url: 
+      #目标注册中心的地址
+      defaultZone: http://lht:lht@localhost:8761/eureka/
+
+    
+    

@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: single
+  security:
+    user:
+      name: lht
+      password: lht
+      #---------忽略服和指定允许接入的网络服务---------
+#  cloud:
+#    inetutils:
+
+    #1 忽略某些端口可以用正则表达式 针对服务的名字也就是spring.application.name的值
+    #  ignored-interfaces:
+    #  - service*
+    
+    #2 只允许下列所给字段正则表达式匹配的网络接入 注册中心 如 195.167.0.1
+    #  preferred-networks:
+    #  - 195.167
+    
+    #3 只允许站点本地址的网络接入
+    #  useOnlySiteLocalInterfaces: true
+      
+      
+#-----如果自定义了 context-path 则需要将 健康检查 和状态页面 设置成相应的路径 如下-------
+#server:
+#  servlet:
+#    context-path: /xxx
+    
+#eureka:
+#  instance:
+#    health-check-url-path: ${server.servlet.context-path}/health 
+#    status-page-url-path: ${server.servlet.context-path}/info
