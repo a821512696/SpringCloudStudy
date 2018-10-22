@@ -1,0 +1,97 @@
+      
+eureka:
+  client:
+    service-url: 
+       defaultZone: http://lht:lht@localhost:8761/eureka/ 
+
+#因为 config-client 默认是8888端口 而如果config-server不是8888
+#则需要把spring.cloud.config.uri=... 配置到boostrap.yml中，否则无法访问git远程仓库里的文件
+server:
+  port: 8772   
+  
+  
+  #http请求地址和资源文件映射如下:
+          #/{application}/{profile}[/{label}]
+          #/{application}-{profile}.yml
+          #/{label}/{application}-{profile}.yml
+          #/{application}-{profile}.properties
+          #/{label}/{application}-{profile}.properties
+#tip:
+#1.0
+            #{application}是spring.application.name的值当然最好要设置成 要连接文件的名字(不加后缀) 
+            #本例中远程仓库的文件名为config-dev.properties 
+            #所以本例的spring.application.name=config-dev
+            #在config server上访问 /config-dev/dev 和/config/dev 都能访问到正确的文件。(没有写label自动使用它的默认值master)
+            #至少测试所用的版本 可以这样用。 为了方便就干脆spring.application.name=文件的名字(不加后缀)
+#2.0            
+            #{profile}是spring.cloud.config.prifile的值 一般有3种值 
+            #dev 开发环境 （develop）
+            #test 测试环境（test)
+            #pro 正式生产环境(produce)
+#3.0            
+            #{label} 是spring.cloud.config.prifile的值 代表要访问git仓库的哪个分支 这个得根据git仓库来，默认是master 
+            
+spring:
+  application:
+    name: config-dev
+  cloud:
+    config:
+      profile: dev 
+#因为 config-client 默认是8888端口 而如果config-server不是8888
+#则需要把spring.cloud.config.uri=... 配置到boostrap.yml中，否则无法访问git远程仓库里的文件
+      label: master
+      #实际加载的地址是 http://localhost:8762/{application}/{profile}/{label}
+      #所以 本项目中实际加载的 文件是 http://localhost:8762/config-dev/dev/master 
+      #在服务器  http://localhost:8762/ 的路径设置中已经达到了https://github.com/a821512696/CloudConfig/
+      #故而 可以将http://localhost:8762/看成是https://github.com/a821512696/CloudConfig/
+      #所以 本次访问的路径是 https://github.com/a821512696/CloudConfig/config-dev.*
+      #对于github的连接密码这些都在 server-config里完成了
+#      uri:  
+#      -  http://localhost:8762/
+
+      discovery:
+#----------这里使用注册中心里发现的服务来作为config-server 而不自己指定------------
+
+      #使用注册中心的服务 而不自己指定url
+      #开启Config发现服务的支持，默认是false
+        enabled: true
+
+      #指定要使用的服务的id 也就是它的 spring.application.name 属性
+      #此处需要设置成Config Server在Eureka上注册的服务名
+        service-id: config-server
+      #而其实 在服务发现组件中 config-server 可以说就是 http://localhost:8762/ 
+      #所以其实差不多的只是换了一种方式，从注册中心发现并且指定使用
+      
+#配置中心的安全验证 
+      username: lht
+      password: 123456
+      
+      #快速反应 是否报错
+      fail-fast: true
+      
+      #重试
+      retry:
+        #最多重传次数
+        max-attempts: 6
+        #间隔时间的乘数
+        multiplier: 1.1
+        #重试的最大间隔时间2000 ms
+        max-interval: 2000
+        #初始间隔时间 1000 ms
+        initial-interval: 1000
+  #配置rabbitmq
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: lht
+    password: 123456
+        
+#配置忽略权限拦截 以便使用/refresh来进行刷新git仓库中变化后的配置文件
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh,refresh
+        
+        
+             

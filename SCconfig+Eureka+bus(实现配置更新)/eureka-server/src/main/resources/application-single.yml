@@ -1,0 +1,54 @@
+ 
+server:
+  port: 8761
+
+
+#连接本项目时的账号密码
+user:
+  name: lht
+  password: lht  
+
+
+
+eureka:
+#配置服务器的实例主机名字
+  instance:
+    hostname: localhost
+    status-page-url-path: /actuator/info #eureka注册中心的url link
+    health-check-url-path: /actuator/health #健康检查的url
+    
+  client:
+  #----------单机----------
+  #通过eureka.client.registerWithEureka：false和fetchRegistry：false来表明自己是一个eureka server.
+# 表示是否注册自身到eureka服务器
+    # register-with-eureka: false
+    # 是否从eureka上获取注册信息
+    # fetch-registry: false
+    register-with-eureka: false
+    fetch-registry: false
+ 
+    service-url: 
+    #服务注册中心的配置内容，指定服务注册中心的位置
+    #如果服务注册中心加入了安全验证，这里配置的地址格式为： http://<username>:<password>@localhost:8761/eureka 
+    #其中 <username> 为安全校验的用户名；<password> 为该用户的密码
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+# ★ ！！！新版里默认启用了csrf 检验 还需改写方法来关闭csrf 检验
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  #确保删除 不可用的实例
+  server:
+    enable-self-preservation: false
+
+    
+
+ 
+spring:
+  application:
+    name: eureka-server1    
+
+ 
+   
+#注册中心开启安全验证 也就是说 要连接这个注册中心需要填入账号密码 
+#客户端连接此服务端时  修改添加了账号密码的 url如 http://admin:admin123@${eureka.instance.hostname}:${server.port}/eureka/
+
+
